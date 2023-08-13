@@ -26,6 +26,11 @@ p, h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+.gameboards-container {
+  display: flex;
+  gap: 2rem;
+}
+
 .gameboard-container {
   display: grid;
   grid-template-columns: 1fr 10fr;
@@ -62,4 +67,17 @@ p, h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.square {
+  border: 1px solid lightgray;
+}
+
+#gameboard-2 .square:hover {
+  cursor: crosshair;
+  background-color: lightblue;
+}
+
+.legend-hover {
+  background-color: lightblue;
 }
