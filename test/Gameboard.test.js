@@ -71,3 +71,50 @@ describe('Place ships', () => {
     expect(gameboard.shipList).toHaveLength(2);
   });
 });
+
+describe('Receive attack', () => {
+  beforeEach(() => {
+    gameboard.placeShip(3, 1, 4, 'horizontal');
+    gameboard.placeShip(10, 1, 2, 'vertical');
+  });
+
+  test('Hit water', () => {
+    gameboard.receiveAttack(1, 1);
+    gameboard.receiveAttack(10, 10);
+    expect(gameboard.board[0].isHit).toBeTruthy();
+    expect(gameboard.board.at(-1).isHit).toBeTruthy();
+  });
+
+  test('Hit cell that was already hit', () => {
+    gameboard.receiveAttack(1, 1);
+    expect(() => gameboard.receiveAttack(1, 1)).toThrowError(/Already hit/);
+    gameboard.receiveAttack(10, 10);
+    expect(() => gameboard.receiveAttack(10, 10)).toThrowError(/Already hit/);
+  });
+
+  test('Hit ship', () => {
+    const shipHit = gameboard.shipList[0];
+    gameboard.receiveAttack(3, 1);
+    expect(shipHit.ship.timesHit).toBe(1);
+    gameboard.receiveAttack(4, 1);
+    expect(shipHit.ship.timesHit).toBe(2);
+  });
+
+  test('Hit ship does not register if repeated hit', () => {
+    const shipHit = gameboard.shipList[0];
+    gameboard.receiveAttack(3, 1);
+    expect(shipHit.ship.timesHit).toBe(1);
+    expect(() => gameboard.receiveAttack(3, 1)).toThrowError(/Already hit/);
+    expect(shipHit.ship.timesHit).toBe(1);
+  });
+});
+
+test('Sink all ships', () => {
+  gameboard.placeShip(1, 1, 1, 'horizontal');
+  gameboard.placeShip(3, 4, 1, 'vertical');
+  expect(gameboard.areAllShipsSunk()).toBe(false);
+  gameboard.receiveAttack(1, 1);
+  expect(gameboard.areAllShipsSunk()).toBe(false);
+  gameboard.receiveAttack(3, 4);
+  expect(gameboard.areAllShipsSunk()).toBe(true);
+});

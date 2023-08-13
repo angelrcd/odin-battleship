@@ -48,8 +48,30 @@ export default function Gameboard() {
     this.shipList.push(newShipData);
   };
 
+  this.receiveAttack = function (col, row) {
+    const cellAttacked = this.getCellFromCoordinates(col, row);
+    if (cellAttacked.isHit) {
+      throw new Error('Already hit');
+    } else {
+      cellAttacked.isHit = true;
+    }
+
+    // Checks if cell attacked in the ships list
+    for (let shipData of this.shipList) {
+      for (let cell of shipData.cells) {
+        if (cell === cellAttacked) {
+          shipData.ship.hit();
+        }
+      }
+    }
+  };
+
+  this.areAllShipsSunk = function () {
+    return this.shipList.every((shipData) => shipData.ship.isSunk());
+  };
+
   this.getCellFromCoordinates = function (col, row) {
-    return this.board.find((cell) => cell.col === col && cell.row === row);
+    return this.board[col - 1 + (row - 1) * 10];
   };
 }
 
