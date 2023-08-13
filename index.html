@@ -11,6 +11,40 @@
   <body>
     <div id="app">
       <h1>BATTLESHIP</h1>
+      <dialog id="place-ships-modal">
+        <h2>Welcome to <strong>Battleship</strong></h2>
+        <p>Place your <span id="next-ship-name"></span></p>
+        <div class="rotate-btn-container"><button>Rotate</button></div>
+
+        <div id="gameboard-place-ships" class="gameboard-container">
+          <div class="col-legend-container">
+            <div class="col-legend" data-col="1">A</div>
+            <div class="col-legend" data-col="2">B</div>
+            <div class="col-legend" data-col="3">C</div>
+            <div class="col-legend" data-col="4">D</div>
+            <div class="col-legend" data-col="5">E</div>
+            <div class="col-legend" data-col="6">F</div>
+            <div class="col-legend" data-col="7">G</div>
+            <div class="col-legend" data-col="8">H</div>
+            <div class="col-legend" data-col="9">I</div>
+            <div class="col-legend" data-col="10">J</div>
+          </div>
+          <div class="row-legend-container">
+            <div class="row-legend" data-row="1">1</div>
+            <div class="row-legend" data-row="2">2</div>
+            <div class="row-legend" data-row="3">3</div>
+            <div class="row-legend" data-row="4">4</div>
+            <div class="row-legend" data-row="5">5</div>
+            <div class="row-legend" data-row="6">6</div>
+            <div class="row-legend" data-row="7">7</div>
+            <div class="row-legend" data-row="8">8</div>
+            <div class="row-legend" data-row="9">9</div>
+            <div class="row-legend" data-row="10">10</div>
+          </div>
+          <div class="gameboard"></div>
+        </div>
+      </dialog>
+
       <div class="gameboards-container">
         <div id="gameboard-1" class="gameboard-container">
           <div class="col-legend-container">

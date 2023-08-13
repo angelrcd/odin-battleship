@@ -26,8 +26,14 @@ p, h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+h1 {
+  text-align: center;
+}
+
 .gameboards-container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
 }
 
@@ -67,6 +73,7 @@ p, h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 .square {
@@ -78,6 +85,65 @@ p, h1, h2, h3, h4, h5, h6 {
   background-color: lightblue;
 }
 
-.legend-hover {
+.col-legend,
+.row-legend {
+  position: relative;
+}
+
+.col-legend.legend-hover::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 5px);
+  height: 5px;
+  width: 100%;
+  background-color: lightblue;
+}
+
+.row-legend.legend-hover::after {
+  content: "";
+  position: absolute;
+  left: calc(100% - 5px);
+  height: 100%;
+  width: 5px;
+  border-radius: 2px;
+  background-color: lightblue;
+}
+
+/* Place ships modal */
+
+#place-ships-modal {
+  margin: 6rem auto;
+  padding: 3rem 1rem;
+}
+
+#place-ships-modal::backdrop {
+  background: linear-gradient(#000d, #000a);
+}
+
+#place-ships-modal h2,
+#place-ships-modal p {
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+#place-ships-modal .rotate-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+#place-ships-modal button {
+  border: none;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  background-color: #222222;
+  padding: 0.75rem 2rem;
+  border-radius: 5px;
+}
+
+#gameboard-place-ships .square:hover {
+  cursor: pointer;
   background-color: lightblue;
 }
