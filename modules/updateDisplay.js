@@ -6,6 +6,11 @@ export default function updatePlayerDisplay(player, gameBoardElement, areShipsHi
     }
   }
 
+  const squaresDataElement = gameBoardElement.querySelector('.squares-data');
+  squaresDataElement.innerText = player.getInfo().cellsHit + '/' + player.gameboard.board.length;
+  const shipsDataElement = gameBoardElement.querySelector('.ships-data');
+  shipsDataElement.innerText = player.getInfo().remainingShip + '/' + player.gameboard.shipList.length;
+
   updatePlayerShipsDisplay(player.gameboard.shipList, gameBoardElement, areShipsHidden);
 }
 

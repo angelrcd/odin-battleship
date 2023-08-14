@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@900&display=swap');
+
 /*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/
@@ -28,6 +30,9 @@ p, h1, h2, h3, h4, h5, h6 {
 
 h1 {
   text-align: center;
+  font-weight: 900;
+  font-size: 4rem;
+  font-family: 'Big Shoulders Stencil Text', cursive;
 }
 
 .gameboards-container {
@@ -40,12 +45,13 @@ h1 {
 .gameboard-container {
   display: grid;
   grid-template-columns: 1fr 10fr;
-  grid-template-rows: 1fr 10fr;
+  grid-template-rows: 1fr 10fr auto;
   width: clamp(330px, 40vw, 500px);
   height: clamp(330px, 40vw, 500px);
 
   grid-template-areas: ". c"
-                       "r g";
+                       "r g"
+                       "i i";
 }
 
 .col-legend-container {
@@ -62,10 +68,16 @@ h1 {
 
 .gameboard {
   display: grid;
+  gap: 1px;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
   grid-area: g;
   border: 2px solid black;
+}
+
+.player-info {
+  grid-area: i;
+  text-align: center;
 }
 
 .col-legend,
@@ -78,11 +90,12 @@ h1 {
 
 .square {
   border: 1px solid lightgray;
+  position: relative;
 }
 
 #gameboard-2 .square:hover:not(.hit) {
   cursor: crosshair;
-  background-color: lightblue;
+  border-color: darkblue;
 }
 
 .col-legend,
@@ -96,7 +109,7 @@ h1 {
   top: calc(100% - 5px);
   height: 5px;
   width: 100%;
-  background-color: lightblue;
+  background-color: #c9456a;
 }
 
 .row-legend.legend-hover::after {
@@ -106,7 +119,7 @@ h1 {
   height: 100%;
   width: 5px;
   border-radius: 2px;
-  background-color: lightblue;
+  background-color: #c9456a;
 }
 
 /* Place ships modal */
@@ -155,13 +168,33 @@ h1 {
 }
 
 .square.hit {
-  background: lightcoral;
+  background-color: #C6E8EC;
+}
+
+.square.hit:not(.ship)::after {
+  content: "·";
+  position: absolute;
+  font-weight: 900;
+  font-size: 2rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
 }
 
 .square.ship.hit {
-  background-color: green;
+  background-color: #D0859A;
+}
+
+.square.ship.hit::after {
+  content: "×";
+  position: absolute;
+  font-weight: 900;
+  font-size: 2rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
 }
 
 .square.ship.sunk {
-  background-color: red;
+  background-color: #c9456a;
 }
