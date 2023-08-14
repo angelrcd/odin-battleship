@@ -45,10 +45,19 @@ export default function Gameboard() {
       if (checkShipsCollision(newShipData, ship)) throw new Error('Ships collision');
     }
 
+    // Check if new ship will be adjacent with other ships
+    for (let ship of this.shipList) {
+      if (checkAdjacentCollision(this, newShipData, ship)) throw new Error('Adjacent');
+    }
+
     this.shipList.push(newShipData);
   };
 
   this.receiveAttack = function (col, row) {
+    if (col < 1 || col > 10 || row < 1 || row > 10) {
+      return;
+    }
+
     const cellAttacked = this.getCellFromCoordinates(col, row);
     if (cellAttacked.isHit) {
       throw new Error('Already hit');
@@ -58,9 +67,14 @@ export default function Gameboard() {
 
     // Checks if cell attacked in the ships list
     for (let shipData of this.shipList) {
-      for (let cell of shipData.cells) {
-        if (cell === cellAttacked) {
+      for (let shipCell of shipData.cells) {
+        if (shipCell === cellAttacked) {
           shipData.ship.hit();
+          // Checks if ship was just sunk
+          if (shipData.ship.isSunk()) {
+            console.log('hundido');
+            hitCellsAdjacentToShip(this, shipData);
+          }
         }
       }
     }
@@ -71,6 +85,9 @@ export default function Gameboard() {
   };
 
   this.getCellFromCoordinates = function (col, row) {
+    if (col < 1 || col > 10 || row < 1 || row > 10) {
+      return;
+    }
     return this.board[col - 1 + (row - 1) * 10];
   };
 }
@@ -83,4 +100,47 @@ function checkShipsCollision(newShip, ship) {
   }
 
   return false;
+}
+
+function checkAdjacentCollision(gameboard, newShip, ship) {
+  for (let shipCell of ship.cells) {
+    for (let newShipCell of newShip.cells) {
+      const adjacentCells = getAllAdjacentCells(gameboard, newShipCell);
+      for (let adjacentCell of adjacentCells) {
+        if (adjacentCell === shipCell) return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function hitCellsAdjacentToShip(gameboard, ship) {
+  for (let shipCells of ship.cells) {
+    const adjacentCells = getAllAdjacentCells(gameboard, shipCells);
+    console.log(adjacentCells);
+    for (let adjacentCell of adjacentCells) {
+      if (adjacentCell) {
+        adjacentCell.isHit = true;
+      }
+    }
+  }
+}
+
+function getAllAdjacentCells(gameboard, cell) {
+  const cellCol = cell.col;
+  const cellRow = cell.row;
+  const adjacentCells = [];
+  adjacentCells.push(
+    gameboard.getCellFromCoordinates(cellCol - 1, cellRow - 1),
+    gameboard.getCellFromCoordinates(cellCol, cellRow - 1),
+    gameboard.getCellFromCoordinates(cellCol + 1, cellRow - 1),
+    gameboard.getCellFromCoordinates(cellCol - 1, cellRow),
+    gameboard.getCellFromCoordinates(cellCol + 1, cellRow),
+    gameboard.getCellFromCoordinates(cellCol - 1, cellRow + 1),
+    gameboard.getCellFromCoordinates(cellCol, cellRow + 1),
+    gameboard.getCellFromCoordinates(cellCol + 1, cellRow + 1),
+  );
+
+  return adjacentCells;
 }

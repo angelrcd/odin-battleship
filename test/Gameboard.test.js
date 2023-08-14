@@ -61,8 +61,15 @@ describe('Place ships', () => {
     expect(gameboard.shipList).toHaveLength(1);
   });
 
+  test('Can not place adjacent ships', () => {
+    gameboard.placeShip(1, 1, 4, 'horizontal');
+    expect(() => gameboard.placeShip(1, 2, 3, 'horizontal')).toThrowError(/Adjacent/);
+    gameboard.placeShip(10, 10, 1, 'horizontal');
+    expect(() => gameboard.placeShip(9, 6, 4, 'vertical')).toThrowError(/Adjacent/);
+  });
+
   test('Collision between ships', () => {
-    gameboard.placeShip(1, 2, 4, 'horizontal');
+    gameboard.placeShip(1, 3, 4, 'horizontal');
     expect(() => gameboard.placeShip(2, 1, 3, 'vertical')).toThrowError(/Ships collision/);
     expect(gameboard.shipList).toHaveLength(1);
 
@@ -106,6 +113,17 @@ describe('Receive attack', () => {
     expect(shipHit.ship.timesHit).toBe(1);
     expect(() => gameboard.receiveAttack(3, 1)).toThrowError(/Already hit/);
     expect(shipHit.ship.timesHit).toBe(1);
+  });
+
+  test('Adjacent cell get hit (revealed) after sinking a ship', () => {
+    // Sink a ship
+    gameboard.receiveAttack(10, 1);
+    gameboard.receiveAttack(10, 2);
+    // After ship sinks, check the that cells adjacent to the ship are hit
+    expect(gameboard.getCellFromCoordinates(9, 1).isHit).toBe(true);
+    expect(gameboard.getCellFromCoordinates(9, 2).isHit).toBe(true);
+    expect(gameboard.getCellFromCoordinates(9, 3).isHit).toBe(true);
+    expect(gameboard.getCellFromCoordinates(10, 3).isHit).toBe(true);
   });
 });
 
