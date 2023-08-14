@@ -8,6 +8,14 @@ export default function Player() {
     playerToAttack.gameboard.receiveAttack(col, row);
   };
 
+  this.attackRandom = function (playerToAttack) {
+    try {
+      this.attack(playerToAttack, Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1);
+    } catch (err) {
+      this.attackRandom(playerToAttack);
+    }
+  };
+
   // 5 4 3 3 2 2 1 1
   this.placeShipsRandom = function () {
     while (this.gameboard.shipList.length < 8) {

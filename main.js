@@ -23,6 +23,21 @@ enemySquares.forEach((enemySquare) => {
     const coordinates = JSON.parse(enemySquare.getAttribute('data-cord'));
     try {
       player1.attack(player2, coordinates.col, coordinates.row);
+      player2.attackRandom(player1);
+      console.log(
+        'Player 1',
+        player1.gameboard.board.reduce((acc, current) => {
+          if (current.isHit) acc++;
+          return acc;
+        }, 0),
+      );
+      console.log(
+        'Player 2',
+        player2.gameboard.board.reduce((acc, current) => {
+          if (current.isHit) acc++;
+          return acc;
+        }, 0),
+      );
       updateDisplay();
     } catch (e) {
       console.log(e);
