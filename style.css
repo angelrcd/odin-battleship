@@ -139,9 +139,10 @@ h1 {
   margin-bottom: 1.8rem;
 }
 
-#place-ships-modal .rotate-btn-container {
+#place-ships-modal .btn-container {
   display: flex;
   justify-content: center;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -158,7 +159,6 @@ h1 {
 
 #gameboard-place-ships .square {
   cursor: pointer;
-  background-color: lightblue;
 }
 
 /* Player board */

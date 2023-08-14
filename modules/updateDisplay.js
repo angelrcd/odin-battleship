@@ -7,11 +7,19 @@ export default function updatePlayerDisplay(player, gameBoardElement, areShipsHi
   }
 
   const squaresDataElement = gameBoardElement.querySelector('.squares-data');
-  squaresDataElement.innerText = player.getInfo().cellsHit + '/' + player.gameboard.board.length;
   const shipsDataElement = gameBoardElement.querySelector('.ships-data');
-  shipsDataElement.innerText = player.getInfo().remainingShip + '/' + player.gameboard.shipList.length;
+  if (squaresDataElement || shipsDataElement) {
+    squaresDataElement.innerText = player.getInfo().cellsHit + '/' + player.gameboard.board.length;
+    shipsDataElement.innerText = player.getInfo().remainingShip + '/' + player.gameboard.shipList.length;
+  }
 
   updatePlayerShipsDisplay(player.gameboard.shipList, gameBoardElement, areShipsHidden);
+}
+
+export function clearShipsDisplay(gameboardElement) {
+  for (let squareElement of gameboardElement.children[2].children) {
+    squareElement.classList.remove('ship');
+  }
 }
 
 function updatePlayerShipsDisplay(playerShipList, gameBoardElement, shipsHidden) {
