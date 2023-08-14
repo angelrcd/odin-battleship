@@ -24,3 +24,8 @@ describe('Place ships random', () => {
     }
   });
 });
+
+test('Get player info', () => {
+  player.placeShipsRandom();
+  expect(player.getInfo()).toStrictEqual({ cellsHit: 0, remainingShip: 8 });
+});

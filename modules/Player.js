@@ -31,6 +31,19 @@ export default function Player() {
 
     this.gameboard.placeShip(coordinates.col, coordinates.row, shipLength, orientation);
   };
+
+  this.getInfo = function () {
+    return {
+      cellsHit: this.gameboard.board.reduce((acc, current) => {
+        if (current.isHit) acc++;
+        return acc;
+      }, 0),
+      remainingShip: this.gameboard.shipList.reduce((acc, current) => {
+        if (!current.ship.isSunk()) acc++;
+        return acc;
+      }, 0),
+    };
+  };
 }
 
 function getRandomCoordinates() {
