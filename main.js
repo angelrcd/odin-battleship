@@ -31,6 +31,10 @@ enemySquares.forEach((enemySquare) => {
       player1.attack(player2, coordinates.col, coordinates.row);
       player2.attackRandom(player1);
       updateDisplay();
+      if (player1.gameboard.areAllShipsSunk() || player2.gameboard.areAllShipsSunk()) {
+        alert('Victory!!!');
+        restartGame();
+      }
     } catch (e) {
       console.log(e);
     }
@@ -54,4 +58,14 @@ startGameBtn.addEventListener('click', () => {
 function updateDisplay() {
   updatePlayerDisplay(player1, gameboard1Element, false);
   updatePlayerDisplay(player2, gameboard2Element, true);
+}
+
+function restartGame() {
+  player1 = new Player();
+  player2 = new Player();
+  clearShipsDisplay(gameboard1Element);
+  clearShipsDisplay(gameboard2Element);
+  player2.placeShipsRandom();
+  updateDisplay();
+  placeShipsModal.showModal();
 }
