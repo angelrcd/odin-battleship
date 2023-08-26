@@ -80,6 +80,21 @@ export default function Gameboard() {
     }
   };
 
+  this.rotateShip = function (shipData) {
+    // Find in what index the input shipData is inside the gameboard ship list
+    const shipDataIndex = this.shipList.findIndex((ship) => ship.ship === shipData.ship);
+
+    this.shipList.splice(shipDataIndex, 1);
+    const newOrientation = shipData.orientation === 'horizontal' ? 'vertical' : 'horizontal';
+    const originCell = shipData.cells[0];
+    try {
+      this.placeShip(originCell.col, originCell.row, shipData.ship.length, newOrientation);
+    } catch (e) {
+      // Replaces the ship as it was if couldn't place it rotated
+      this.placeShip(originCell.col, originCell.row, shipData.ship.length, shipData.orientation);
+    }
+  };
+
   this.areAllShipsSunk = function () {
     return this.shipList.every((shipData) => shipData.ship.isSunk());
   };

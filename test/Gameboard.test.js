@@ -127,6 +127,34 @@ describe('Receive attack', () => {
   });
 });
 
+describe('Rotate ships', () => {
+  test('Rotate ship happy case', () => {
+    gameboard.placeShip(1, 1, 3, 'horizontal');
+    gameboard.rotateShip(gameboard.shipList[0]);
+    expect(gameboard.shipList.length).toBe(1);
+    expect(gameboard.shipList[0].orientation).toBe('vertical');
+    gameboard.rotateShip(gameboard.shipList[0]);
+    expect(gameboard.shipList.length).toBe(1);
+    expect(gameboard.shipList[0].orientation).toBe('horizontal');
+  });
+
+  test('Try to rotate ship to be out of bounds', () => {
+    gameboard.placeShip(1, 9, 3, 'horizontal');
+    gameboard.rotateShip(gameboard.shipList[0]);
+    expect(gameboard.shipList.length).toBe(1);
+    expect(gameboard.shipList.at(-1).orientation).toBe('horizontal');
+  });
+
+  test('Try to rotate ship, ship collision', () => {
+    gameboard.placeShip(1, 1, 4, 'horizontal');
+    gameboard.placeShip(1, 3, 4, 'horizontal');
+
+    gameboard.rotateShip(gameboard.shipList[0]);
+    expect(gameboard.shipList[0].orientation).toBe('horizontal');
+    expect(gameboard.shipList[1].orientation).toBe('horizontal');
+  });
+});
+
 test('Sink all ships', () => {
   gameboard.placeShip(1, 1, 1, 'horizontal');
   gameboard.placeShip(3, 4, 1, 'vertical');
