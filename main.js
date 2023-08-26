@@ -11,18 +11,40 @@ const startGameBtn = document.querySelector('.start-game');
 const placeShipsModal = document.querySelector('#place-ships-modal');
 
 const enemySquares = gameboard2Element.querySelectorAll('.square');
+const placeShipSquares = gameboardPlaceShips.querySelectorAll('.square');
 
 placeShipsModal.showModal();
 
 let player1 = new Player();
-player1.placeShipsRandom();
-updatePlayerDisplay(player1, gameboardPlaceShips, false);
+// player1.placeShipsRandom();
+// updatePlayerDisplay(player1, gameboardPlaceShips, false);
 
 let player2 = new Player();
 player2.placeShipsRandom();
 
 // updatePlayerDisplay(player1, gameboard1Element, false);
-// updatePlayerDisplay(player2, gameboard2Element, true);
+updatePlayerDisplay(player2, gameboard2Element, true);
+
+placeShipSquares.forEach((placeShipSquare) => {
+  placeShipSquare.addEventListener('click', () => {
+    const coordinates = JSON.parse(placeShipSquare.getAttribute('data-cord'));
+    if (placeShipSquare.classList.contains('ship')) {
+      const shipDataOfShipClicked = player1.gameboard.shipList.find((element) =>
+        element.cells.some((cell) => cell.col === coordinates.col && cell.row === coordinates.row),
+      );
+      console.log(shipDataOfShipClicked);
+      player1.gameboard.rotateShip(shipDataOfShipClicked);
+      clearShipsDisplay(gameboardPlaceShips);
+      updatePlayerDisplay(player1, gameboardPlaceShips, false);
+      return;
+    }
+    try {
+      player1.placeShip(coordinates.col, coordinates.row);
+      clearShipsDisplay(gameboardPlaceShips);
+      updatePlayerDisplay(player1, gameboardPlaceShips, false);
+    } catch (e) {}
+  });
+});
 
 enemySquares.forEach((enemySquare) => {
   enemySquare.addEventListener('click', () => {
@@ -51,6 +73,10 @@ randomBtn.addEventListener('click', () => {
 });
 
 startGameBtn.addEventListener('click', () => {
+  if (player1.gameboard.shipList.length < 8) {
+    alert("You haven't placed all your ships!");
+    return;
+  }
   placeShipsModal.close();
   updateDisplay();
 });

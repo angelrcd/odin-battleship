@@ -17,7 +17,20 @@ export default function Player() {
   };
 
   // 5 4 3 3 2 2 1 1
+  this.placeShip = function (col, row) {
+    if (this.gameboard.shipList.length >= 8) return;
+
+    const orientation = 'horizontal';
+    try {
+      this.gameboard.placeShip(col, row, SHIPS_LENGTHS[this.gameboard.shipList.length], orientation);
+      console.log(this.gameboard.shipList);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   this.placeShipsRandom = function () {
+    this.gameboard.shipList.length = 0;
     while (this.gameboard.shipList.length < 8) {
       try {
         this.placeShipRandom(SHIPS_LENGTHS[this.gameboard.shipList.length]);
@@ -30,6 +43,10 @@ export default function Player() {
     const coordinates = getRandomCoordinates();
 
     this.gameboard.placeShip(coordinates.col, coordinates.row, shipLength, orientation);
+  };
+
+  this.rotateShip = function (col, row) {
+    console.log();
   };
 
   this.getInfo = function () {
