@@ -8,10 +8,13 @@ const gameboardPlaceShips = document.querySelector('#gameboard-place-ships ');
 
 const randomBtn = document.querySelector('.random-btn');
 const startGameBtn = document.querySelector('.start-game');
+startGameBtn.disabled = true;
 const placeShipsModal = document.querySelector('#place-ships-modal');
 
 const enemySquares = gameboard2Element.querySelectorAll('.square');
 const placeShipSquares = gameboardPlaceShips.querySelectorAll('.square');
+
+const SHIPS_LENGTHS = [5, 4, 3, 3, 2, 2, 1, 1];
 
 placeShipsModal.showModal();
 
@@ -26,6 +29,7 @@ player2.placeShipsRandom();
 updatePlayerDisplay(player2, gameboard2Element, true);
 
 placeShipSquares.forEach((placeShipSquare) => {
+  // Place ships and rotate
   placeShipSquare.addEventListener('click', () => {
     const coordinates = JSON.parse(placeShipSquare.getAttribute('data-cord'));
     if (placeShipSquare.classList.contains('ship')) {
@@ -43,6 +47,24 @@ placeShipSquares.forEach((placeShipSquare) => {
       clearShipsDisplay(gameboardPlaceShips);
       updatePlayerDisplay(player1, gameboardPlaceShips, false);
     } catch (e) {}
+
+    // Enable start game button if all ships are placed
+    if (areAllPlayerShipsPlaced()) {
+      startGameBtn.disabled = false;
+    } else {
+      startGameBtn.disabled = true;
+    }
+  });
+
+  // Showing a preview of the ship you are about to place when hovering
+  placeShipSquare.addEventListener('mouseover', () => {
+    if (player1.gameboard.shipList.length > 7) {
+      placeShipSquare.setAttribute('ship-length', 0);
+      return;
+    }
+
+    const lengthOfNextShip = SHIPS_LENGTHS[player1.gameboard.shipList.length];
+    placeShipSquare.setAttribute('ship-length', lengthOfNextShip);
   });
 });
 
@@ -94,4 +116,8 @@ function restartGame() {
   player2.placeShipsRandom();
   updateDisplay();
   placeShipsModal.showModal();
+}
+
+function areAllPlayerShipsPlaced() {
+  return player1.gameboard.shipList.length >= 8;
 }
