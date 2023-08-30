@@ -9,6 +9,8 @@ const gameboardPlaceShips = document.querySelector('#gameboard-place-ships ');
 const randomBtn = document.querySelector('.random-btn');
 const startGameBtn = document.querySelector('.start-game');
 startGameBtn.disabled = true;
+const clearShipsBtn = document.querySelector('.clear-btn');
+
 const placeShipsModal = document.querySelector('#place-ships-modal');
 
 const enemySquares = gameboard2Element.querySelectorAll('.square');
@@ -92,6 +94,7 @@ randomBtn.addEventListener('click', () => {
   clearShipsDisplay(gameboard1Element);
 
   updatePlayerDisplay(player1, gameboardPlaceShips, false);
+  startGameBtn.disabled = false;
 });
 
 startGameBtn.addEventListener('click', () => {
@@ -101,6 +104,12 @@ startGameBtn.addEventListener('click', () => {
   }
   placeShipsModal.close();
   updateDisplay();
+});
+
+clearShipsBtn.addEventListener('click', () => {
+  player1 = new Player();
+  clearShipsDisplay(gameboardPlaceShips);
+  startGameBtn.disabled = true;
 });
 
 function updateDisplay() {
