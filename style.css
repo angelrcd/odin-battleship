@@ -43,6 +43,7 @@ h1 {
 }
 
 .gameboard-container {
+  margin-right: 10px;
   display: grid;
   grid-template-columns: 1fr 10fr;
   grid-template-rows: 1fr 10fr auto;
@@ -141,6 +142,7 @@ h1 {
 
 #place-ships-modal .btn-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
   margin-bottom: 1rem;
@@ -160,6 +162,10 @@ h1 {
 #place-ships-modal button:disabled {
   cursor: not-allowed;
   opacity: 0.65;
+}
+
+#gameboard-place-ships {
+  margin: 0 auto;
 }
 
 #gameboard-place-ships .square {
@@ -257,4 +263,24 @@ button.start-game:not(:disabled) {
 
 #gameboard-place-ships .square[ship-length="0"]:not(.ship)::after {
   transform: scaleX(0);
+}
+
+@media screen and (min-width: 320px) and (max-width: 420px) {
+  #place-ships-modal:modal {
+    max-width: 100vw;
+    padding: 1rem 0;
+  }
+
+  #place-ships-modal #gameboard-place-ships {
+    width: clamp(300px, 40vw, 500px);
+    height: clamp(300px, 40vw, 500px);
+    grid-template-areas: "g g"
+                         "g g";
+  }
+
+  #gameboard-place-ships .col-legend-container,
+  #gameboard-place-ships .row-legend-container {
+    display: none;
+  }
+
 }
