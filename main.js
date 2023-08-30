@@ -1,6 +1,6 @@
 import Player from './modules/Player';
 import updatePlayerDisplay from './modules/updateDisplay';
-import { clearShipsDisplay } from './modules/updateDisplay';
+import { clearShipsDisplay, displayShipName } from './modules/updateDisplay';
 
 const gameboard1Element = document.querySelector('#gameboard-1');
 const gameboard2Element = document.querySelector('#gameboard-2');
@@ -21,8 +21,7 @@ const SHIPS_LENGTHS = [5, 4, 3, 3, 2, 2, 1, 1];
 placeShipsModal.showModal();
 
 let player1 = new Player();
-// player1.placeShipsRandom();
-// updatePlayerDisplay(player1, gameboardPlaceShips, false);
+showNextShipName();
 
 let player2 = new Player();
 player2.placeShipsRandom();
@@ -56,6 +55,7 @@ placeShipSquares.forEach((placeShipSquare) => {
     } else {
       startGameBtn.disabled = true;
     }
+    showNextShipName();
   });
 
   // Showing a preview of the ship you are about to place when hovering
@@ -94,6 +94,7 @@ randomBtn.addEventListener('click', () => {
   clearShipsDisplay(gameboard1Element);
 
   updatePlayerDisplay(player1, gameboardPlaceShips, false);
+  showNextShipName();
   startGameBtn.disabled = false;
 });
 
@@ -109,6 +110,7 @@ startGameBtn.addEventListener('click', () => {
 clearShipsBtn.addEventListener('click', () => {
   player1 = new Player();
   clearShipsDisplay(gameboardPlaceShips);
+  showNextShipName();
   startGameBtn.disabled = true;
 });
 
@@ -129,4 +131,8 @@ function restartGame() {
 
 function areAllPlayerShipsPlaced() {
   return player1.gameboard.shipList.length >= 8;
+}
+
+function showNextShipName() {
+  displayShipName(player1.gameboard.shipList.length);
 }

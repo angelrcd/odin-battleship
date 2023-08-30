@@ -46,3 +46,35 @@ function updatePlayerShipsDisplay(playerShipList, gameBoardElement, shipsHidden)
     }
   }
 }
+
+export function displayShipName(shipNumber) {
+  if (shipNumber > 7) {
+    hideShipName();
+  } else {
+    showShipName();
+  }
+
+  const nameDisplay = document.querySelector('#next-ship-name');
+  const SHIP_NAMES = [
+    'Carrier_5',
+    'Battleship_4',
+    'Destroyer_3',
+    'Destroyer_3',
+    'Submarine_2',
+    'Submarine_2',
+    'Patrol_1',
+    'Patrol_1',
+  ];
+
+  nameDisplay.textContent = SHIP_NAMES[shipNumber];
+}
+
+function hideShipName() {
+  const shipName = document.querySelector('#place-ships-modal p');
+  shipName.style.display = 'none';
+}
+
+function showShipName() {
+  const shipName = document.querySelector('#place-ships-modal p');
+  shipName.style.display = 'block';
+}
